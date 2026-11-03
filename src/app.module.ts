@@ -18,8 +18,12 @@ import { UsersModule } from './users/users.module';
         password: config.get<string>('DB_PASSWORD', ''),
         database: config.get<string>('DB_NAME', 'edu'),
         autoLoadEntities: true,
-        // Dev only: auto-creates/alters tables from entities. Use migrations in production.
-        synchronize: config.get('NODE_ENV') !== 'production',
+        // Auto-creates/alters tables from entities. On by default outside production;
+        // DB_SYNCHRONIZE=true|false overrides. Use migrations for real production data.
+        synchronize:
+          config.get<string>('DB_SYNCHRONIZE') !== undefined
+            ? config.get<string>('DB_SYNCHRONIZE') === 'true'
+            : config.get('NODE_ENV') !== 'production',
       }),
     }),
     UsersModule,

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-A NestJS 11 app on Express with TypeORM + PostgreSQL and a `users` CRUD module (`src/users`). Config comes from `.env` via `@nestjs/config` (see `.env.example` for `DB_*` and `PORT`). TypeORM uses `autoLoadEntities` and `synchronize` (on unless `NODE_ENV=production`), so there are no migrations yet. Swagger UI is at `/docs` (JSON at `/docs-json`). A global `ValidationPipe` (`whitelist`, `forbidNonWhitelisted`, `transform`) validates DTOs with class-validator.
+A NestJS 11 app on Express with TypeORM + PostgreSQL and a `users` CRUD module (`src/users`). Config comes from `.env` via `@nestjs/config` (see `.env.example` for `DB_*` and `PORT`). TypeORM uses `autoLoadEntities` and `synchronize` (on unless `NODE_ENV=production`; `DB_SYNCHRONIZE=true|false` overrides), so there are no migrations yet. `docker compose up -d --build` runs the API (Dockerfile, `NODE_ENV=production`) plus Postgres 16 (host port 5433). Swagger UI is at `/docs` (JSON at `/docs-json`). A global `ValidationPipe` (`whitelist`, `forbidNonWhitelisted`, `transform`) validates DTOs with class-validator.
 
 Keep Nest ecosystem packages on the Nest 11 line (`@nestjs/config@4`, `@nestjs/typeorm@11`, `@nestjs/swagger@11`). Their v12 releases need `@nestjs/common@12` or are ESM-only, and Jest can't load ESM-only packages. E2E tests boot the full `AppModule`, so they need a running Postgres.
 
