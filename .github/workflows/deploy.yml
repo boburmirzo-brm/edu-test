@@ -45,8 +45,10 @@ jobs:
             docker image prune -f
 
             # Health check: fail the deploy if the API doesn't answer
+            PORT=$(grep -E '^API_PORT=' .env 2>/dev/null | cut -d= -f2)
+            PORT=${PORT:-3000}
             for i in $(seq 1 20); do
-              if curl -fsS -o /dev/null http://127.0.0.1:3000/docs; then
+              if curl -fsS -o /dev/null "http://127.0.0.1:$PORT/docs"; then
                 echo "API is up"
                 exit 0
               fi
