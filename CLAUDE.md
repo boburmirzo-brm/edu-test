@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project state
 
-A freshly scaffolded NestJS 11 app (`nest new` starter) on Express. It has only the default `AppModule` / `AppController` / `AppService`, with no database, config module, or env handling yet. The HTTP port is `process.env.PORT`, defaulting to 3000 (`src/main.ts`).
+A NestJS 11 app on Express with TypeORM + PostgreSQL and a `users` CRUD module (`src/users`). Config comes from `.env` via `@nestjs/config` (see `.env.example` for `DB_*` and `PORT`). TypeORM uses `autoLoadEntities` and `synchronize` (on unless `NODE_ENV=production`), so there are no migrations yet. Swagger UI is at `/docs` (JSON at `/docs-json`). A global `ValidationPipe` (`whitelist`, `forbidNonWhitelisted`, `transform`) validates DTOs with class-validator.
+
+Keep Nest ecosystem packages on the Nest 11 line (`@nestjs/config@4`, `@nestjs/typeorm@11`, `@nestjs/swagger@11`). Their v12 releases need `@nestjs/common@12` or are ESM-only, and Jest can't load ESM-only packages. E2E tests boot the full `AppModule`, so they need a running Postgres.
 
 ## Commands
 
